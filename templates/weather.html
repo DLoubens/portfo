@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather App</title>
+    <link href="./venv/static/weather.css"  rel="stylesheet" >
+    
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Weather App</h1>
+
+      <form method="POST">
+        <label for="city">Enter city:</label>
+        <input
+          type="text"
+          id="city"
+          name="city"
+          required
+          placeholder="Enter city..."
+        />
+        <button type="submit">Get Weather</button>
+      </form>
+
+      {% if weather_data %}
+      <div class="weather-info">
+        <h2>{{ weather_data['city'] }}</h2>
+        <p>Temperature: <strong>{{ weather_data['temperature'] }}°C</strong></p>
+        <p>Feels Like: <strong>{{ weather_data['feels_like'] }}°C</strong></p>
+        <p>
+          Min Temperature: <strong>{{ weather_data['temp_min'] }}°C</strong>
+        </p>
+        <p>
+          Max Temperature: <strong>{{ weather_data['temp_max'] }}°C</strong>
+        </p>
+      </div>
+      <br />
+      {% if forecast_data %}
+      <h2 align="center">7-Day Forecast</h2>
+      <br />
+      <ul class="forecast-list">
+        {% for forecast in forecast_data %}
+        <li>
+          <strong>{{ forecast['date'] }}</strong>: {{ forecast['temperature']
+          }}°C, {{ forecast['description'] }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% if graph_filename %}
+      <br />
+      <h2>7-Day Temperature Forecast Graph</h2>
+      <img
+        src="{{ url_for('static', filename=graph_filename) }}"
+        alt="7-Day Forecast Graph"
+        class="forecast-image"
+      />
+      {% endif %} {% endif %}
+    </div>
+  </body>
+</html>
